@@ -30,7 +30,7 @@ const charSchema = {
 const beginner = mongoose.model("beginner", charSchema);
    
 
-app.get('/submitChar',   function(req,res){
+app.get('/submitChar',  async function(req,res){
  
      try{
 		console.log("here ist he subchar " + req.query.name);
@@ -40,7 +40,7 @@ app.get('/submitChar',   function(req,res){
 			class: req.query.class
 		})
 
-		newChar.save();
+		await newChar.save();
        
         res.redirect('/');
          
@@ -52,11 +52,11 @@ app.get('/submitChar',   function(req,res){
 });
 
 
-app.get('/displayAll',  function(req,res){
+app.get('/displayAll',  async function(req,res){
      
 	try{
 		
-		beginner.find({}).then(char => {
+		await beginner.find({}).then(char => {
 		   console.log("find all " + char);
 		   res.end(JSON.stringify(char));
 		})
@@ -73,7 +73,7 @@ app.get('/delChar',  async function(req,res){
 
 	try{
 		 
-		beginner.deleteOne({name: req.query.charName}).then(function(){
+		await beginner.deleteOne({name: req.query.charName}).then(function(){
 		console.log(`The query has   matches ` + req.query.charName); 
 		res.redirect('/');
 		});

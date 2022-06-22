@@ -55,7 +55,7 @@ try{
    
 
     await fillTable();
-    await initMap();
+     
 }
 catch(e){
 
