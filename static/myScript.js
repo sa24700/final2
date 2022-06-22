@@ -332,7 +332,7 @@ function classSetUp(classResults){
     
 }
 
-function setStats(passClass){
+async function setStats(passClass){
         switch(passClass) {
             case "barbarian":
                 setStatsByClass("str", "con");
@@ -376,7 +376,7 @@ function setStats(passClass){
       }
    
    try{
-    leftPicBuilder(passClass);
+    await leftPicBuilder(passClass);
    }
    catch(e){
 
@@ -565,37 +565,47 @@ function addMarker(passName){
     }
 
 async function charDelete(rowNum){
-    var cell = document.getElementById("charTable").rows[rowNum].cells[0];
-    var newString = cell.innerHTML.substring(3,cell.innerHTML.length-4);
-    console.log("Here is the cell info " + newString);
-
-    tryCall = await fetch('/delChar?charName=' + newString , options);
-    window.location.reload();
+    try{
+        var cell = document.getElementById("charTable").rows[rowNum].cells[0];
+        var newString = cell.innerHTML.substring(3,cell.innerHTML.length-4);
+        console.log("Here is the cell info " + newString);
+    
+        tryCall = await fetch('/delChar?charName=' + newString , options);
+        window.location.reload();
+    }
+    catch(e){
+        console.log(e);
+    }
 }
 
 async function fillTable(){
-    tryCall = await fetch('/displayAll', options);
-    results = await tryCall.json();
-
-    var i = 2;
-    console.log("filltable results " + JSON.stringify(results));
-    var charTable = document.getElementById("charTable");
-    results.forEach((el) =>{
-        var row = charTable.insertRow(-1);
-        var cell = row.insertCell(0);
-        var cell2 = row.insertCell(1);
-        var cell3 = row.insertCell(2);
-       var cell4 = row.insertCell(3);
-
-        cell.innerHTML = `<td><p>${el.name}</p></td>`;
-        cell2.innerHTML = `<td><p>${el.class}</p></td>`;
-        cell3.innerHTML = `<td><p>${el.race}</p></td>`;
-        cell4.innerHTML = "<td><button onclick=" +
-                            `charDelete(${i})`+
-                            ">Delete</button";
-
-        i++;
-    });  
+    try{
+        tryCall = await fetch('/displayAll', options);
+        results = await tryCall.json();
+    
+        var i = 2;
+        console.log("filltable results " + JSON.stringify(results));
+        var charTable = document.getElementById("charTable");
+        results.forEach((el) =>{
+            var row = charTable.insertRow(-1);
+            var cell = row.insertCell(0);
+            var cell2 = row.insertCell(1);
+            var cell3 = row.insertCell(2);
+           var cell4 = row.insertCell(3);
+    
+            cell.innerHTML = `<td><p>${el.name}</p></td>`;
+            cell2.innerHTML = `<td><p>${el.class}</p></td>`;
+            cell3.innerHTML = `<td><p>${el.race}</p></td>`;
+            cell4.innerHTML = "<td><button onclick=" +
+                                `charDelete(${i})`+
+                                ">Delete</button";
+    
+            i++;
+        }); 
+    }
+    catch(e){
+        console.log(e);
+    }
 }
 
  
