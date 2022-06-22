@@ -1,10 +1,10 @@
 const express = require('express')
 app = express()
 
-//const {MongoClient} = require('mongodb'); 
-//const fetch = require('node-fetch');
-//const uri = "mongodb+srv://user:ic86szGxuR4fW3cP@cluster0.udqar.mongodb.net/?retryWrites=true&w=majority";
-//var client = new MongoClient(uri);
+const {MongoClient} = require('mongodb'); 
+const fetch = require('node-fetch');
+const uri = "mongodb+srv://user:ic86szGxuR4fW3cP@cluster0.udqar.mongodb.net/?retryWrites=true&w=majority";
+var client = new MongoClient(uri);
 
 var url = require('url');
 var dt = require('./date-time');
