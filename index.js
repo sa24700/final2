@@ -33,8 +33,8 @@ const beginner = mongoose.model("beginner", charSchema);
 app.get('/submitChar',  async function(req,res){
  
      try{
-		console.log("here ist he subchar " + req.query.name);
-		let newChar = new beginner({
+		console.log("here ist he subchar " );
+		let newChar = await new beginner({
 			name: req.query.name,
 			race: req.query.race,
 			class: req.query.class
@@ -88,7 +88,7 @@ app.get('/dndCall', async function(req,res){
    
     var results = await dndAPI(req.query.url)
     
-	console.log("DNDCALL " + JSON.stringify(results.data));
+ 
     res.send(JSON.stringify( results.data));
 });
  
@@ -119,7 +119,7 @@ async function dndAPI(myString ){
 		console.log("33333333333333333333333333333");
     const call = await axios.get(baseApiUrl + myString);
 	 
-	console.log("axios get " + call );
+	 
     
 	
     return call;
