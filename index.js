@@ -17,7 +17,7 @@ const mongoose = require('mongoose');
 
  
 
-const fetch = require('node-fetch');
+const axios = require('axios');
 const mongooseUri = "mongodb+srv://user:ic86szGxuR4fW3cP@cluster0.udqar.mongodb.net/Characters?retryWrites=true&w=majority";
 mongoose.connect(mongooseUri,{useNewUrlParser: true},{useUnifiedTopology: true});
 const charSchema = {
@@ -31,7 +31,8 @@ app.get('/dndCall', async function(req,res){
    
     var results = await dndAPI(req.query.url)
     
-    res.end( JSON.stringify(results) );
+	console.log("DNDCALL " + JSON.stringify(results.data));
+    res.send(JSON.stringify( results.data));
 });
  
  
@@ -39,8 +40,8 @@ app.get('/dndCall', async function(req,res){
 app.get('/photoCall', async function(req,res){
      
     var results = await photoAPI(req.query.className)
-     
-    res.end( JSON.stringify(results) );
+	 
+    res.end(JSON.stringify( results.data));
 });
  
 app.get('/submitChar',  async function(req,res){
@@ -66,22 +67,25 @@ app.get('/submitChar',  async function(req,res){
 async function photoAPI(queryString){
     const heroApiUrl = "https://imsea.herokuapp.com/api/1?q=dnd";
     try{
-        const imgInfo = await fetch(heroApiUrl+queryString);
-        const imgResults = await imgInfo.json();
-        var picArray = imgResults["results"]; 
-        return picArray;
+        const imgInfo = await axios.get(heroApiUrl+queryString);
+ 
+        return imgInfo;
     }
     catch(e){
         console.log(e);
     }
-} 
+}  
 
 async function dndAPI(myString ){
     var baseApiUrl = "https://www.dnd5eapi.co";
     try{
-    const call = await fetch(baseApiUrl + myString);
-    const res = await call.json();
-    return res;
+		console.log("33333333333333333333333333333");
+    const call = await axios.get(baseApiUrl + myString);
+	 
+	console.log("axios get " + call );
+    
+	
+    return call;
     }
     catch(e){
 

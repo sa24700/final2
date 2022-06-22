@@ -71,8 +71,9 @@ async function charGen(){
     if(classVal == ""){
         infoQuery = "/api/classes"
         tryCall = await fetch('/dndCall' + '?url=' + infoQuery, options);
-        results = await tryCall.json(); 
-        
+      console.log("////////////"   );
+        //results = await tryCall.json(); 
+        results = await tryCall.json();
         count = results["count"];
         var charClass = results["results"][randomNum(count)]["index"];
         
@@ -515,7 +516,7 @@ async function leftPicBuilder(passClass){
           
     tryCall = await fetch('/photoCall' + '?className=' + passClass, options);
     results = await tryCall.json();
-
+    results = results["results"];
     
     await setInterval(function(){picRotate(results, passClass)}, 3000);
     }
