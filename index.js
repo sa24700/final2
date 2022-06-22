@@ -10,8 +10,10 @@ const minorVersion = 2
 
 // Use Express to publish static HTML, CSS, and JavaScript files that run in the browser. 
 app.use(express.static(__dirname + '/static'))
+app.use(bodyParser.urlencoded({extended:true}));
 
 
+const bodyParser = require('body-parser');
 
 const mongoose = require('mongoose');
 
@@ -47,11 +49,11 @@ app.get('/photoCall', async function(req,res){
 app.get('/submitChar',  async function(req,res){
  
      try{
-		console.log("here ist he subchar " + req.query.name);
+		console.log("here ist he subchar " + req.body.name);
 		let newChar = new beginner({
-			name: req.query.name,
-			race: req.query.race,
-			class: req.query.class
+			name: req.body.name,
+			race: req.body.race,
+			class: req.body.class
 		})
 
 		newChar.save();
