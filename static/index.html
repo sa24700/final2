@@ -1,15 +1,301 @@
 <!DOCTYPE html>
 <html>
-<head>
-<title>Node on Azure</title>
-</head>
-<body>
-<h1>Node.js and Express Hosted on Microsoft Azure Template</h1>
-<p>This repository serves as a template that can be used to create a Node.js and Express based website that can easily
-be hosted on Microsoft Azure.</p>
+    <head>
+        <title>D&D Char Gen</title>
+        <meta charset="UTF-8" />
+        <link rel="stylesheet" href="index.css" />
+    </head>
+    <body onload="initForm()">
+        <header>
+            <h1>1st Level Character Creator</h1>
+        </header>
+        <main>
+            <div id="directionModal" class="modal">
 
-Additional application functionality includes:<br />
-<a href="fetching-from-server.html">Accessing Node.js Server-Side Application Programming Interfaces (APIs)</a><br />
-<a href="fetching-remote-dog-breeds.html">Accessing Remote Application Programming Interfaces (APIs)</a>
-</body>
+                   
+                <div class="modalContent">
+                      <p onclick = "popDown()" id="close">X</p>  
+                    <div id="ulDiv">
+                     <ul>
+                        <li>You can fill out your name</li>
+                        <li>You can specify your race and/or class or keep them blank</li>
+                        <li>click "create character" to do the rest</li>
+                        <li>"clear" clears the form</li>
+                        <li>the bottom text area is for notes and you can add equipment in the equipment box</li>
+                        <li>You can also add more rows to the equipment box if needed.</li>
+                    </ul>
+                </div>
+                </div>
+    
+                </div>
+            <section>
+                <form id="charForm" action="/submitChar" method="get" >
+                    <div id="nameHpDiv">
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" name="name" />
+                        <label for="hp">Hit Points:</label>
+                        <input type="text" id="hp" name="hp" />
+                    </div>
+
+                    <div id="raceClassDiv">
+
+                        <label for="race">Race:</label>
+                        <select name="race" id="selRace">
+                            <option value=""></option>"
+                        </select>
+                        <label for="class">Class:</label>
+                        <select name="class" id="selClass">
+                            <option value=""></option>"
+                        </select>
+
+                    </div>
+
+                    <div id="speedSizeDiv">
+                        
+                        <label for="speed">Speed:</label>
+                        <input type="text" id="speed" name="speed" />  
+                        <label for="size">Size:</label>
+                        <input type="text" id="size" name="size" /> 
+                    </div>
+
+                    <div id="statBlock">
+                        <label for="str">Str:</label>
+                        <input type="text" id="str" name="str" class = "stat" />
+                        <label for="dex">Dex:</label>
+                        <input type="text" id="dex" name="dex" class = "stat"  />
+                        <label for="con">Con:</label>
+                        <input type="text" id="con" name="con"  class = "stat" />
+                        <label for="int">Int:</label>
+                        <input type="text" id="int" name="int" class = "stat"  />
+                        <label for="wis">Wis:</label>
+                        <input type="text" id="wis" name="wis" class = "stat"  />
+                        <label for="cha">Cha:</label>
+                        <input type="text" id="cha" name="cha" class = "stat"  />
+
+                    </div>
+
+                    <div id="skillBlock">
+                        <div id="topForm">
+                            <table id="skillTable">
+                                <thead>
+                                    <tr>
+                                        <td>Prof:</td>
+                                        <td>Mod:</td>
+                                        <td>Skill:</td>
+                                        <td>Bonus:</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td><input type="checkbox" id="acrobaticsProf" name="acrobatics" ></td>
+                                    <td>DEX:</td>
+                                    <td>Acrobatics</td>
+                                    <td><input type="text" id="bonus" name="dexBonus"></td>   
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox" id="animal-handlingProf" name="animal-handling"></td>
+                                    <td>WIS:</td>
+                                    <td>Animal Handling</td>
+                                    <td><input type="text" id="bonus" name="wisBonus"></td> 
+                                </tr>                           
+                                <tr>
+                                    <td><input type="checkbox" id="arcanaProf" name="arcana"></td>
+                                    <td>INT:</td>
+                                    <td>Arcana</td>
+                                    <td><input type="text" id="bonus" name="intBonus"></td>   
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox" id="athleticsProf" name="athletics"></td>
+                                    <td>STR:</td>
+                                    <td>Athletics</td>
+                                    <td><input type="text" id="bonus" name="strBonus"></td> 
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox" id="deceptionProf" name="deception"></td>
+                                    <td>CHA:</td>
+                                    <td>Deception</td>
+                                    <td><input type="text" id="bonus" name="chaBonus"></td> 
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox" id="historyProf" name="history"></td>
+                                    <td>INT:</td>
+                                    <td>History</td>
+                                    <td><input type="text" id="bonus" name="intBonus"></td> 
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox" id="insightProf" name="insight"></td>
+                                    <td>WIS:</td>
+                                    <td>Insight</td>
+                                    <td><input type="text" id="bonus" name="wisBonus"></td> 
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox" id="intimidationProf" name="intimidation"></td>
+                                    <td>CHA:</td>
+                                    <td>Intimidation</td>
+                                    <td><input type="text" id="bonus" name="chaBonus"></td> 
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox" id="investigationProf" name="investigation"></td>
+                                    <td>INT:</td>
+                                    <td>Investigation</td>
+                                    <td><input type="text" id="bonus" name="intBonus"></td> 
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox" id="medicineProf" name="medicine"></td>
+                                    <td>WIS:</td>
+                                    <td>Medicine</td>
+                                    <td><input type="text" id="bonus" name="wisBonus"></td> 
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox" id="natureProf" name="nature"></td>
+                                    <td>INT:</td>
+                                    <td>Nature</td>
+                                    <td><input type="text" id="bonus" name="intBonus"></td> 
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox" id="perceptionProf" name="perception"></td>
+                                    <td>WIS:</td>
+                                    <td>Perception</td>
+                                    <td><input type="text" id="bonus" name="wisBonus"></td> 
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox" id="performanceProf" name="performance"></td>
+                                    <td>CHA:</td>
+                                    <td>Performance</td>
+                                    <td><input type="text" id="bonus" name="chaBonus"></td> 
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox" id="persuasionProf" name="persuasion"></td>
+                                    <td>CHA:</td>
+                                    <td>Persuasion</td>
+                                    <td><input type="text" id="bonus" name="chaBonus"></td> 
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox" id="religionProf" name="religion"></td>
+                                    <td>INT:</td>
+                                    <td>Religion</td>
+                                    <td><input type="text" id="bonus" name="intBonus"></td> 
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox" id="sleight-of-handProf" name="sleight-of-hand"></td>
+                                    <td>INT:</td>
+                                    <td>Sleight of Hand</td>
+                                    <td><input type="text" id="bonus" name="intBonus"></td> 
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox" id="stealthProf" name="stealth"></td>
+                                    <td>DEX:</td>
+                                    <td>Stealth</td>
+                                    <td><input type="text" id="bonus" name="dexBonus"></td> 
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox" id="survivalProf" name="survival"></td>
+                                    <td>WIS:</td>
+                                    <td>Survival</td>
+                                    <td><input type="text" id="survivalBonus" name="wisBonus"></td> 
+                                </tr>
+    
+    
+    
+                            </tbody>
+                            </table>
+    
+    
+                            <div id="txtBoxHold">
+                                    <textarea id="txtAreaTraits" name="txtAreaTraits" rows="33" cols="25" >
+    
+                                 </textarea>
+    
+    
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div id="btnDiv">
+                        <button type="button" id="charGenBtn" onclick="charGen()">Create Character</button>
+                        <input type="reset" value="Clear">
+                        <input type="submit" value="Submit" >
+                    </div>
+                    
+  
+                        </form>
+                    
+                   <div id="equipment">
+                        <div id="btmForm">
+                            <textarea id="txtAreaClassTraits" name="txtAreaClassTraits" rows="7" cols="80" >
+                    
+                            </textarea> 
+                        </div>
+
+                        <table id="equipmentTable">
+                            <thead>
+                                <tr>
+                                    <td>Quantity:</td>
+                                    <td>Item:</td>
+                                    <td>Weight:</td>
+                                </tr>
+                            </thead>
+                            <tbody id="equipTableBody">
+                                <tr>
+                                    <td><input type="text" id="quantity" name="equip"></td>
+                                    <td><input type="text" id="item" name="equip"></td>
+                                    <td><input type="text" id="weight" name="equip"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <button id="equipBtn" onclick="addRow()">Add Row</button>
+
+                        <table id="charTable">
+                            <thead>
+                                <tr>
+                                    <td colspan="4">
+                                        <h2>Saved Characters</h2>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                       <h3>Name</h3>
+                                    </td>
+                                    <td>
+                                        <h3>Class</h3>
+                                     </td>
+                                     <td>
+                                        <h3>Race</h3>
+                                     </td>
+                                     <td>
+                                        <h3>Delete Char</h3>
+                                     </td>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+
+               
+                
+            </section>
+            <section>
+                <div id="showBox">
+                    <div id="leftBox"></div>
+                    <div id="centerBox"></div>
+                    <div id="rightBox"></div>
+                </div>
+            </section>
+            <section >
+                <div id="mapDiv">
+
+                </div>
+            </section>
+        </main>
+        <footer>
+
+        </footer>
+         
+         
+        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqn66wbAk_6zVy-PeA0eViS8OZpYEGRog&callback=initMap"></script>
+ 
+       <script src="./myScript.js"></script>
+    </body>
+
 </html>

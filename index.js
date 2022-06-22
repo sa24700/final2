@@ -1,6 +1,11 @@
 const express = require('express')
 app = express()
 
+const {MongoClient} = require('mongodb'); 
+const fetch = require('node-fetch');
+const uri = "mongodb+srv://user:ic86szGxuR4fW3cP@cluster0.udqar.mongodb.net/?retryWrites=true&w=majority";
+var client = new MongoClient(uri);
+
 var url = require('url');
 var dt = require('./date-time');
 
@@ -119,6 +124,90 @@ app.get('/batman', (request, response) => {
 	response.type('application/json')
 	response.send(JSON.stringify(spiderMan, null, 4))
 })
+
+
+     
+app.get('/dndCall', async function(req,res){
+   
+    var results = await dndAPI(req.query.url)
+    
+    res.end( JSON.stringify(results) );
+});
+ 
+ 
+
+app.get('/photoCall', async function(req,res){
+     
+    var results = await photoAPI(req.query.className)
+     
+    res.end( JSON.stringify(results) );
+});
+ 
+app.get('/submitChar',  async function(req,res){
+ 
+     try{
+        const result = await   client.db("Characters").collection("beginner").updateOne({name:req.query.name,},{$set: req.query},{upsert: true});
+        res.redirect('index.html');
+         
+     }
+     catch(e){
+        console.log(e);
+     }
+      
+});
+
+app.get('/displayAll',  async function(req,res){
+     
+     try{
+        const results = await    client.db("Characters").collection("beginner").find( ).toArray() ;
+         
+        res.end(JSON.stringify(results));
+     }
+     catch(e){
+        console.log(e);
+     }
+});
+
+
+
+app.get('/delChar',  async function(req,res){
+ 
+     try{
+         const delResult = await client.db("Characters").collection("beginner").deleteOne({name: req.query.charName} );
+         console.log(`The query has ${delResult.deletedCount} matches`);
+         res.redirect('index.html');
+     }
+     catch(e){
+        console.log(e);
+     }
+});
+
+
+async function photoAPI(queryString){
+    const heroApiUrl = "https://imsea.herokuapp.com/api/1?q=dnd";
+    try{
+        const imgInfo = await fetch(heroApiUrl+queryString);
+        const imgResults = await imgInfo.json();
+        var picArray = imgResults["results"]; 
+        return picArray;
+    }
+    catch(e){
+        console.log(e);
+    }
+} 
+
+async function dndAPI(myString ){
+    var baseApiUrl = "https://www.dnd5eapi.co";
+    try{
+    const call = await fetch(baseApiUrl + myString);
+    const res = await call.json();
+    return res;
+    }
+    catch(e){
+
+    }
+}
+
 
 // Custom 404 page.
 app.use((request, response) => {

@@ -1,0 +1,109 @@
+html, body{
+    height: 100%;
+    width: 100%;
+    display: block;
+}
+
+header{
+    background-color: #3B8EA5;
+    padding: 5%;
+}
+
+h1{
+    width: 100%;
+    text-align: center;
+    padding-top: 5%;
+}
+
+main{
+    background-color: #F5EE9E;
+    width: 100%;
+}
+
+footer{
+    background-color: #AB3428;
+}
+
+
+.stat{
+    width: 5%;
+    height: 5%;
+}
+
+table,tr,td{
+    border: 1px solid black;
+}
+
+tr{
+    background-color: white;
+}
+#charForm {
+    margin-left: 30%;
+    padding-top: 3%;
+}
+
+#skillTable {
+    float:left;
+}
+
+#txtBoxHold {
+    float: left;
+}
+#btmForm{
+    clear:both;
+}
+#equipment {
+    margin-left: 30%;
+}
+#txtAreaClassTraits{
+    clear:both;
+}
+#txtAreaTraits{
+    clear :left;
+    height: 100%;
+}
+
+#mapDiv{
+    height: 400px;
+    width: 100%;
+}
+
+.classPic{
+
+    width: 400px;
+    height: auto;
+}
+
+#showCase{
+    width: 400px;
+    height: 600px;
+}
+
+.modal {
+    
+    
+    padding: 2%;
+    border: 2px solid black;
+    background-color: ivory;
+    overflow: hidden;   
+    width: 80%;
+    height:auto;
+    margin-left: 10%;
+  }
+
+  #btnDiv{
+    clear:both;
+  }
+
+  #charTable{
+    width: 55%;
+    overflow-y:auto;
+  }
+  h2,h3,p{
+    width: 100%;
+    text-align: center;
+  }
+
+  #showBox{
+    height: 400px;
+  }
