@@ -29,24 +29,8 @@ const charSchema = {
 }
 const beginner = mongoose.model("beginner", charSchema);
    
-app.get('/dndCall', async function(req,res){
-   
-    var results = await dndAPI(req.query.url)
-    
-	console.log("DNDCALL " + JSON.stringify(results.data));
-    res.send(JSON.stringify( results.data));
-});
- 
- 
 
-app.get('/photoCall', async function(req,res){
-     
-    var results = await photoAPI(req.query.className)
-	 
-    res.end(JSON.stringify( results.data));
-});
- 
-app.get('/submitChar',  async function(req,res){
+app.get('/submitChar',   function(req,res){
  
      try{
 		console.log("here ist he subchar " + req.query.name);
@@ -66,6 +50,57 @@ app.get('/submitChar',  async function(req,res){
      }
       
 });
+
+
+app.get('/displayAll',  function(req,res){
+     
+	try{
+		
+		beginner.find({}).then(char => {
+		   console.log("find all " + char);
+		   res.end(JSON.stringify(char));
+		})
+		
+	}
+	catch(e){
+	   console.log(e);
+	}
+});
+
+
+
+app.get('/delChar',  async function(req,res){
+
+	try{
+		 
+		beginner.deleteOne({name: req.query.charName}).then(function(){
+		console.log(`The query has   matches ` + req.query.charName); 
+		res.redirect('/');
+		});
+
+	}
+	catch(e){
+	   console.log(e);
+	}
+});
+
+app.get('/dndCall', async function(req,res){
+   
+    var results = await dndAPI(req.query.url)
+    
+	console.log("DNDCALL " + JSON.stringify(results.data));
+    res.send(JSON.stringify( results.data));
+});
+ 
+ 
+
+app.get('/photoCall', async function(req,res){
+     
+    var results = await photoAPI(req.query.className)
+	 
+    res.end(JSON.stringify( results.data));
+});
+ 
 async function photoAPI(queryString){
     const heroApiUrl = "https://imsea.herokuapp.com/api/1?q=dnd";
     try{
@@ -94,37 +129,7 @@ async function dndAPI(myString ){
     }
 }
 
-app.get('/displayAll',  async function(req,res){
-     
-     try{
-         
-         beginner.find({}).then(char => {
-			console.log("find all " + char);
-			res.end(JSON.stringify(char));
-		 })
-         
-     }
-     catch(e){
-        console.log(e);
-     }
-});
 
-
-
-app.get('/delChar',  async function(req,res){
- 
-     try{
-          
-		 beginner.deleteOne({name: req.query.charName}).then(function(){
-         console.log(`The query has   matches ` + req.query.charName); 
-         res.redirect('/');
-		 });
-
-     }
-     catch(e){
-        console.log(e);
-     }
-});
 
 
 
