@@ -1,19 +1,7 @@
 const express = require('express')
 app = express()
 
-const mongoose = require('mongoose');
 
- 
-
-const fetch = require('node-fetch');
-const mongooseUri = "mongodb+srv://user:ic86szGxuR4fW3cP@cluster0.udqar.mongodb.net/Characters?retryWrites=true&w=majority";
-mongoose.connect(mongooseUri,{useNewUrlParser: true},{useUnifiedTopology: true});
-const charSchema = {
-	name: String,
-	race: String,
-	class: String
-}
-const beginner = mongoose.model("beginner", charSchema);
 
 
 
@@ -136,7 +124,19 @@ app.get('/batman', (request, response) => {
 	response.send(JSON.stringify(spiderMan, null, 4))
 })
 
+const mongoose = require('mongoose');
 
+ 
+
+const fetch = require('node-fetch');
+const mongooseUri = "mongodb+srv://user:ic86szGxuR4fW3cP@cluster0.udqar.mongodb.net/Characters?retryWrites=true&w=majority";
+mongoose.connect(mongooseUri,{useNewUrlParser: true},{useUnifiedTopology: true});
+const charSchema = {
+	name: String,
+	race: String,
+	class: String
+}
+const beginner = mongoose.model("beginner", charSchema);
    
 app.get('/dndCall', async function(req,res){
    
