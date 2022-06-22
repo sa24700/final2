@@ -557,10 +557,10 @@ function addMarker(passName){
 
         if(coordArrayChoice % 2 == 0){
             myLat = coordsArray[0].lat;
-            myLng += randomNum(coordsArray[0].offset);    
+            myLng = randomNum(coordsArray[0].offset);    
         }
         else{
-            myLat += randomNum(coordsArray[1].offset)
+            myLat = randomNum(coordsArray[1].offset)
             myLng = coordsArray[1].lng;
         }
         var marker = new google.maps.Marker({
