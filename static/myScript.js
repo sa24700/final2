@@ -492,7 +492,7 @@ function randomNum(topNum){
      var number = 0;
      number = randomNum(results.length - 1);
      var data = results[number]; 
-    console.log("??????????????data " + data + passClass);
+   
     $left = document.getElementById("leftBox");
     $left.innerHTML =  "";
     

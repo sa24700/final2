@@ -20,7 +20,7 @@ const mongoose = require('mongoose');
  
 
 const axios = require('axios');
-const mongooseUri = "mongodb+srv://user:ic86szGxuR4fW3cP@cluster0.udqar.mongodb.net/Characters?retryWrites=true&w=majority";
+const mongooseUri = "mongodb+srv://user:ic86szGxuR4fW3cP@cluster0.udqar.mongodb.net/Characters";
 mongoose.connect(mongooseUri,{useNewUrlParser: true},{useUnifiedTopology: true});
 const charSchema = {
 	name: String,
