@@ -55,6 +55,7 @@ try{
    
 
     fillTable();
+    initMap();
 }
 catch(e){
 
