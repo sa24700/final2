@@ -1,10 +1,21 @@
 const express = require('express')
 app = express()
 
-const {MongoClient} = require('mongodb'); 
+const mongoose = require('mongoose');
+
+ 
+
 const fetch = require('node-fetch');
-const uri = "mongodb+srv://user:ic86szGxuR4fW3cP@cluster0.udqar.mongodb.net/?retryWrites=true&w=majority";
-var client = new MongoClient(uri);
+const mongooseUri = "mongodb+srv://user:ic86szGxuR4fW3cP@cluster0.udqar.mongodb.net/Characters?retryWrites=true&w=majority";
+mongoose.connect(mongooseUri,{useNewUrlParser: true},{useUnifiedTopology: true});
+const charSchema = {
+	name: String,
+	race: String,
+	class: String
+}
+const beginner = mongoose.model("beginner", charSchema);
+
+
 
 var url = require('url');
 var dt = require('./date-time');
@@ -126,7 +137,7 @@ app.get('/batman', (request, response) => {
 })
 
 
-   /*  
+   
 app.get('/dndCall', async function(req,res){
    
     var results = await dndAPI(req.query.url)
@@ -146,8 +157,16 @@ app.get('/photoCall', async function(req,res){
 app.get('/submitChar',  async function(req,res){
  
      try{
-        const result = await   client.db("Characters").collection("beginner").updateOne({name:req.query.name,},{$set: req.query},{upsert: true});
-        res.redirect('index.html');
+		console.log("here ist he subchar " + req.query.name);
+		let newChar = new beginner({
+			name: req.query.name,
+			race: req.query.race,
+			class: req.query.class
+		})
+
+		newChar.save();
+       
+        res.redirect('/');
          
      }
      catch(e){
@@ -155,34 +174,6 @@ app.get('/submitChar',  async function(req,res){
      }
       
 });
-
-app.get('/displayAll',  async function(req,res){
-     
-     try{
-        const results = await    client.db("Characters").collection("beginner").find( ).toArray() ;
-         
-        res.end(JSON.stringify(results));
-     }
-     catch(e){
-        console.log(e);
-     }
-});
-
-
-
-app.get('/delChar',  async function(req,res){
- 
-     try{
-         const delResult = await client.db("Characters").collection("beginner").deleteOne({name: req.query.charName} );
-         console.log(`The query has ${delResult.deletedCount} matches`);
-         res.redirect('index.html');
-     }
-     catch(e){
-        console.log(e);
-     }
-});
-
-
 async function photoAPI(queryString){
     const heroApiUrl = "https://imsea.herokuapp.com/api/1?q=dnd";
     try{
@@ -207,7 +198,42 @@ async function dndAPI(myString ){
 
     }
 }
-*/
+
+app.get('/displayAll',  async function(req,res){
+     
+     try{
+         
+         beginner.find({}).then(char => {
+			console.log("find all " + char);
+			res.end(JSON.stringify(char));
+		 })
+         
+     }
+     catch(e){
+        console.log(e);
+     }
+});
+
+
+
+app.get('/delChar',  async function(req,res){
+ 
+     try{
+          
+		 beginner.deleteOne({name: req.query.charName}).then(function(){
+         console.log(`The query has   matches ` + req.query.charName); 
+         res.redirect('/');
+		 });
+
+     }
+     catch(e){
+        console.log(e);
+     }
+});
+
+
+
+
 
 // Custom 404 page.
 app.use((request, response) => {
