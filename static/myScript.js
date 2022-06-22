@@ -54,8 +54,8 @@ try{
     });
    
 
-    fillTable();
-    initMap();
+    await fillTable();
+    await initMap();
 }
 catch(e){
 
