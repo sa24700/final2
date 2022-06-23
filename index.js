@@ -31,7 +31,7 @@ mongoose.connection.on("connected", () =>{
   console.log("Mongoose has connected.");
 });
 
-app.get('/submitChar',   function(req,res){
+app.get('/submitChar',  async function(req,res){
  
      try{
         console.log("here ist he subchar " + req.query.name + " " + req.query.race + " " + req.query.class );
@@ -42,14 +42,7 @@ app.get('/submitChar',   function(req,res){
         })
 
           console.log("Here is the newChar " + newChar);
-          newChar.save((error) =>{
-          if(error){
-            console.log("There was an error " + error);
-          }
-          else{
-            console.log("Data saved");
-          }
-        });
+          await newChar.save();
           
             res.redirect('/');
          
@@ -60,30 +53,14 @@ app.get('/submitChar',   function(req,res){
       
 });
 
-const renderChars  = ((charArray) =>{
-  var text = "These are the currently saved chars.\n\n";
+ 
 
-  charArray.forEach((character)=>{
-      text += `NAME: ${character.name}\nRACE: ${character.race}\nCLASS: ${character.class}`;
-  });
-
-  return text;
-});
-
-app.get('/displayAll',   function(req,res){
+app.get('/displayAll',  async function(req,res){
      
     try{
       
-        beginner.find({}).then(character =>{ 
-            res.type("text/plain");
-            res.send(renderChars(character));
-          
-            
-            
-          
-       // res.end(JSON.stringify(char));
-      }) 
-      
+      const char = await beginner.find({});
+       res.end(JSON.stringify(char));
     }
     catch(e){
       console.log(e);
