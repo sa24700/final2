@@ -19,7 +19,11 @@ const options = {
     }; 
 var modal = document.getElementById("directionModal");
 var btn = document.getElementById("modalBtn");
-       
+
+
+    ////////////////////////////////
+    //Modal show and hide
+    /////////////////////////////       
     function popUp() {
         modal.style.display = "block";
     }
@@ -28,6 +32,12 @@ var btn = document.getElementById("modalBtn");
     function popDown() {
          modal.style.display = "none";
     }
+
+     ////////////////////////////////
+    //Filling race and class select boxes with api info
+    /////////////////////////////
+
+
 async function initForm(){
 selRace = document.getElementById("selRace");
 selClass = document.getElementById("selClass");
@@ -36,9 +46,16 @@ try{
      
     tryCall = await fetch('/dndCall' + '?url=/api/races', options);
     results = await tryCall.json();
+    
+    var option = document.createElement("option");
+    option.text = "";
+    selRace.add(option);
+    option = document.createElement("option");
+    option.text = "";   
+    selClass.add(option);
      
     results["results"].forEach((el) =>{
-        var option = document.createElement("option");
+        option = document.createElement("option");
         option.text = el.name;
         selRace.add(option);
     });
@@ -48,7 +65,7 @@ try{
      
 
     results["results"].forEach((el) =>{
-        var option = document.createElement("option");
+        option = document.createElement("option");
         option.text = el.name;
         selClass.add(option);
     });
@@ -62,6 +79,12 @@ catch(e){
 }
 
 }
+
+    ////////////////////////////////
+    //Getting race and class from user input or random gen
+    /////////////////////////////
+
+
 async function charGen(){
     $race = document.getElementById("selRace");
         raceVal = $race.value.toLowerCase();
@@ -121,8 +144,9 @@ async function charGen(){
    
          
  
-   
-
+    ////////////////////////////////
+    //Creating name for map Marker
+    /////////////////////////////
      
     if(document.getElementById("name").value == ""){
         charName = document.getElementById("selRace").value;
@@ -140,6 +164,10 @@ async function charGen(){
 
    
 }
+
+    ////////////////////////////////
+    //function to set up race determined languages, skills, traits, etc
+    /////////////////////////////
 
 function raceProperties(passResults){
     $race = document.getElementById("selRace");
@@ -179,8 +207,18 @@ function raceProperties(passResults){
             if(tempProf.includes("Skill") ){
                   tempString = tempProf.split(" ");
                 tempString[1] = tempString[1].toLowerCase() ;
-                
-                document.getElementById(tempString[1] + "Prof").checked = true;
+                var newSkillString = "";
+                for(var a = 1; a < tempString.length; a++){
+                   if((a + 1) !== tempString.length){
+                    newSkillString += tempString[a].toLocaleLowerCase() + "-";
+                   }
+                   else{
+                    newSkillString += tempString[a].toLocaleLowerCase();
+                   }
+
+                }
+                console.log("newSkillString " + newSkillString);
+                document.getElementById(newSkillString + "Prof").checked = true;
             }
             else{
                 document.getElementById("txtAreaTraits").value += "(+)" + tempProf + "\n";
@@ -194,6 +232,8 @@ function raceProperties(passResults){
     else{
         document.getElementById("txtAreaTraits").value += "--------------------\n";
     }
+
+
     if(passResults.hasOwnProperty("traits")){
         if(passResults["traits"] > 0){
             document.getElementById("txtAreaTraits").value += "TRAITS:\n\n";
@@ -228,18 +268,12 @@ function raceProperties(passResults){
     else{
         document.getElementById("txtAreaTraits").value += "--------------------\n";
     }
-
-
-
-   
-
-
-
-console.log("get race bonuses " + passResults["ability_bonuses"]);
-
-
     $race.value = passResults["name"];
 }
+
+    ////////////////////////////////
+    //function to determine starting class based skills and starting equipment
+    /////////////////////////////
 
 function classSetUp(classResults){
     document.getElementById("hp").value = classResults["hit_die"];
@@ -332,6 +366,10 @@ function classSetUp(classResults){
     
 }
 
+    ////////////////////////////////
+    //Setting stats by Class
+    /////////////////////////////
+
 async function setStats(passClass){
         switch(passClass) {
             case "barbarian":
@@ -383,10 +421,12 @@ async function setStats(passClass){
    }
 }
 
+
+    ////////////////////////////////
+    //Randomly creating stats 
+    /////////////////////////////
+
 function setStatsByClass(highStat, nextHighStat){
-
-   
-
 
     stats.delete(highStat);
     stats.delete(nextHighStat);
@@ -418,6 +458,12 @@ function setStatsByClass(highStat, nextHighStat){
     stats.add(nextHighStat);
 }
 
+
+    ////////////////////////////////
+    //Creating stat modifiers
+    /////////////////////////////
+
+
  function addBonusMod(charBonusArray){
     
     stats.forEach((val) => {
@@ -430,24 +476,22 @@ function setStatsByClass(highStat, nextHighStat){
     });
             charBonusArray.forEach((charBonus) => {
 
-                    var numberBonus = Number(charBonus["bonus"]);
-                    console.log("number " + numberBonus * numberBonus);
-                    document.getElementsByName(charBonus["ability_score"]["index"] +"Bonus").forEach((el) => {
-                        var elementVal = Number(el.value);
+                var numberBonus = Number(charBonus["bonus"]);                
+                document.getElementsByName(charBonus["ability_score"]["index"] +"Bonus").forEach((el) => {
+                var elementVal = Number(el.value);
  
-                            el.value  = numberBonus + elementVal; 
-                       
-                        
+                    el.value  = numberBonus + elementVal; 
+    
                     });
-                        
-                                  
- 
-
             });
 
-
-
 }
+
+
+    ////////////////////////////////
+    //Add empty rows to equipment table
+    /////////////////////////////
+
 
 function addRow(){
 
@@ -463,6 +507,11 @@ function addRow(){
 
 }
 
+    ////////////////////////////////
+    //Adding rows to equipment table with arguments
+    /////////////////////////////
+
+
 function addRowArgs(quant,item,wght){
 
     table =  document.getElementById("equipmentTable");
@@ -477,33 +526,37 @@ function addRowArgs(quant,item,wght){
 
 }
 
+
+    ////////////////////////////////
+    //Creating random numbers
+    /////////////////////////////
+
+
 function randomNum(topNum){
   var randomNum =  Math.floor(Math.random() * topNum);
   return randomNum;
 }
 
+    ////////////////////////////////
+    //Looping through photo array
+    /////////////////////////////
+
+
  function picRotate(results, givenClass){
     var passClass;
     try{
         passClass = givenClass;
-
-
-
-     var number = 0;
-     number = randomNum(results.length - 1);
-     var data = results[number]; 
-   
-    $left = document.getElementById("leftBox");
-    $left.innerHTML =  "";
+        var number = 0;
+        number = randomNum(results.length - 1);
+        var data = results[number]; 
     
- 
-    
-    
-    $left.innerHTML = "<div id='showCase'>" +
+        $left = document.getElementById("leftBox");
+        $left.innerHTML =  "";
+        $left.innerHTML = "<div id='showCase'>" +
 
-    `<img src="${data }" alt="${passClass}" class="classPic" />` +
-   
-    "</div>";  
+        `<img src="${data }" alt="${passClass}" class="classPic" />` +
+    
+        "</div>";  
     }
     catch(e)
     {
@@ -511,6 +564,9 @@ function randomNum(topNum){
     }
  }
 
+    ////////////////////////////////
+    //fetching photo api array from server call
+    /////////////////////////////
 
 async function leftPicBuilder(passClass){
     try{
@@ -523,16 +579,13 @@ async function leftPicBuilder(passClass){
     }
     catch(e){
 
-    }
-    
-
-
-
-     
+    }  
 }
 
  
-
+    ////////////////////////////////
+    //add map Marker
+    /////////////////////////////
 
 function addMarker(passName){
 
@@ -550,7 +603,8 @@ function addMarker(passName){
         }
         var marker = new google.maps.Marker({
             position: {lat:myLat,lng:myLng},
-            map: myMap
+            map: myMap,
+            draggable:true
         });
          
         var infoWindow = new google.maps.InfoWindow({
@@ -563,6 +617,12 @@ function addMarker(passName){
 
         myMap.setCenter({lat:myLat,lng:myLng});
     }
+
+
+    ////////////////////////////////
+    //Delete character from table and database
+    /////////////////////////////
+
 
 async function charDelete(rowNum){
     try{
@@ -578,13 +638,16 @@ async function charDelete(rowNum){
     }
 }
 
+    ////////////////////////////////
+    //Get all chars from database and display in table
+    /////////////////////////////
+
 async function fillTable(){
     try{
         tryCall = await fetch('/displayAll', options);
         results = await tryCall.json();
     
         var i = 2;
-        console.log("filltable results " + JSON.stringify(results));
         var charTable = document.getElementById("charTable");
         results.forEach((el) =>{
             var row = charTable.insertRow(-1);

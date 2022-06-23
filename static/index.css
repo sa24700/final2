@@ -1,3 +1,28 @@
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+ 
+  
+   
+}
+/*/////////////////
+//  GENERAL STYLES
+/////////////////////
+////////////////////*/
 html, body{
     height: 100%;
     width: 100%;
@@ -10,6 +35,8 @@ header{
 }
 
 h1{
+    font-size: 40px;
+    font-family: serif;
     width: 100%;
     text-align: center;
     padding-top: 5%;
@@ -17,20 +44,37 @@ h1{
 
 main{
     background-color: #F5EE9E;
-    width: 100%;
+
+    padding:2%;
+    
+}
+
+article{
+
+    padding: 2%;
+
 }
 
 footer{
+    
     background-color: #AB3428;
+    padding:2%;
+
 }
 
-
-.stat{
-    width: 5%;
-    height: 5%;
+div{
+    padding:0.5%;
+    
+    
 }
 
-table,tr,td{
+/*/////////////////
+//  TABLE STYLES
+/////////////////////
+////////////////////*/
+
+
+table,thead,tbody,tr,td{
     border: 1px solid black;
 }
 
@@ -44,7 +88,20 @@ tr{
 
 #skillTable {
     float:left;
+   width: 60%;
 }
+
+td{
+    padding: 1%;
+}
+
+#skillTable td input[type="text"]{
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+  }
+
+ 
 
 #txtBoxHold {
     float: left;
@@ -53,9 +110,13 @@ tr{
     clear:both;
 }
 #equipment {
+    width: 40%;
+    height: 50%;
     margin-left: 30%;
+    overflow: auto;
 }
 #txtAreaClassTraits{
+    width: 99%;
     clear:both;
 }
 #txtAreaTraits{
@@ -63,42 +124,79 @@ tr{
     height: 100%;
 }
 
-#mapDiv{
-    height: 400px;
-    width: 100%;
-}
 
+
+/*/////////////////
+//  article 2 styles
+/////////////////////
+////////////////////*/
+
+#article{
+    width: 100%;
+    height: 100%;
+    
+}
+#article2{
+    border-top:1px solid black;
+    border-bottom: 1px solid black;
+}
+ #showBox{
+    display:flex;
+    flex-direction:column;
+}
+#leftBox{
+    width: 100%;
+    height: 100%;
+
+}
+#showCase{
+    width: 100%;
+    height: 100%;
+}
 .classPic{
 
-    width: 400px;
-    height: auto;
+    width: 250px;
+    height: 400px;
 }
 
-#showCase{
-    width: 400px;
-    height: 600px;
-}
 
+/*/////////////////
+//  MODAL STYLES
+/////////////////////
+////////////////////*/
 .modal {
-    
-    
     padding: 2%;
     border: 2px solid black;
     background-color: ivory;
     overflow: hidden;   
-    width: 80%;
+    width: 40%;
     height:auto;
-    margin-left: 10%;
+    margin-left: 30%;
+  }
+
+  #close{
+    margin-left: 50%;
   }
 
   #btnDiv{
     clear:both;
   }
 
+  #equipBtn{
+    margin: 1%;
+
+  }
+
   #charTable{
-    width: 55%;
+    width: 100%;
     overflow-y:auto;
   }
+
+  #charTable button{
+    width: 100%;
+     
+  }
+
   h2,h3,p{
     width: 100%;
     text-align: center;
@@ -107,3 +205,73 @@ tr{
   #showBox{
     height: 400px;
   }
+
+  label,input [type="text"]{
+    display:flex;
+    flex-direction:column;
+  }
+
+  #nameDiv,#hpDiv,#raceSelDiv,#classSelDiv,#speedDiv,#sizeDiv,#statBlock>div{
+    float:left;
+  }
+
+  #raceClassDiv,#speedSizeDiv,#statBlock,#skillBlock{
+    clear:both;
+  }
+
+#statBlock>div{
+    width: 9%;
+} 
+
+#statBlock>div>input{
+    width: 50%;
+}
+
+  .stat{
+    width: 5%;
+    height: 5%;
+}
+
+
+
+
+/*/////////////////
+//   #equipmentTable STYLES
+/////////////////////
+////////////////////*/
+  #equipmentTable {
+    width: 100%;
+   
+}
+  #equipmentTable td input{
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+/*/////////////////
+//  BUtTON STYLES
+/////////////////////
+////////////////////*/
+  button, input[type="reset"], input[type="submit"] {
+    padding: 1%;
+    border-radius: 8px;
+  }
+
+  button:hover, input[type="reset"]:hover, input[type="submit"]:hover  {
+    background-color: darkgrey;
+  }
+
+  #dirBtn{
+    margin: 1%;
+  }
+
+
+/*/////////////////
+//  article 3 STYLES
+/////////////////////
+////////////////////*/
+
+  #mapDiv{
+    height: 400px;
+    width: 100%;
+}

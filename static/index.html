@@ -10,11 +10,12 @@
             <h1>1st Level Character Creator</h1>
         </header>
         <main>
+            <button id="dirBtn" type="button" onclick="popUp()">Show Instructions</button>
             <div id="directionModal" class="modal">
 
-                   
+                <p onclick = "popDown()" id="close">X</p>   
                 <div class="modalContent">
-                      <p onclick = "popDown()" id="close">X</p>  
+                     
                     <div id="ulDiv">
                      <ul>
                         <li>You can fill out your name</li>
@@ -28,49 +29,74 @@
                 </div>
     
                 </div>
-            <section>
+            <article id="article1">
                 <form id="charForm" action="/submitChar" method="get" >
                     <div id="nameHpDiv">
-                        <label for="name">Name:</label>
-                        <input type="text" id="name" name="name" />
-                        <label for="hp">Hit Points:</label>
-                        <input type="text" id="hp" name="hp" />
+                        <div id="nameDiv">
+                            <label for="name">Name:</label>
+                            <input type="text" id="name" name="name" />                           
+                        </div>
+
+                        <div id="hpDiv">
+                            <label for="hp">Hit Points:</label>
+                            <input type="text" id="hp" name="hp" />
+                        </div>
                     </div>
 
                     <div id="raceClassDiv">
 
-                        <label for="race">Race:</label>
-                        <select name="race" id="selRace">
-                            <option value=""></option>"
-                        </select>
-                        <label for="class">Class:</label>
-                        <select name="class" id="selClass">
-                            <option value=""></option>"
-                        </select>
+                        <div id="raceSelDiv">
+                            <label for="selRace">Race:</label>
+                            <select name="race" id="selRace">
+                                 
+                            </select>
+                        </div>
+                        <div id="classSelDiv">
+                            <label for="selClass">Class:</label>
+                            <select name="class" id="selClass">
+                                
+                            </select>
+                        </div>
 
                     </div>
 
                     <div id="speedSizeDiv">
                         
-                        <label for="speed">Speed:</label>
-                        <input type="text" id="speed" name="speed" />  
-                        <label for="size">Size:</label>
-                        <input type="text" id="size" name="size" /> 
+                        <div id="speedDiv">
+                            <label for="speed">Speed:</label>
+                            <input type="text" id="speed" name="speed" /> 
+                        </div>
+                        <div id="sizeDiv">
+                            <label for="size">Size:</label>
+                            <input type="text" id="size" name="size" /> 
+                        </div>
                     </div>
 
                     <div id="statBlock">
-                        <label for="str">Str:</label>
-                        <input type="text" id="str" name="str" class = "stat" />
-                        <label for="dex">Dex:</label>
-                        <input type="text" id="dex" name="dex" class = "stat"  />
-                        <label for="con">Con:</label>
-                        <input type="text" id="con" name="con"  class = "stat" />
-                        <label for="int">Int:</label>
-                        <input type="text" id="int" name="int" class = "stat"  />
-                        <label for="wis">Wis:</label>
-                        <input type="text" id="wis" name="wis" class = "stat"  />
-                        <label for="cha">Cha:</label>
-                        <input type="text" id="cha" name="cha" class = "stat"  />
+                        <div id="strStatDiv">
+                            <label for="str">Str:</label>
+                            <input type="text" id="str" name="str" class = "stat" />
+                        </div>
+                        <div id="dexStatDiv">
+                            <label for="dex">Dex:</label>
+                            <input type="text" id="dex" name="dex" class = "stat"  />
+                        </div>
+                        <div id="conStatDiv">
+                            <label for="con">Con:</label>
+                            <input type="text" id="con" name="con"  class = "stat" />
+                        </div>
+                        <div id="intStatDiv">
+                            <label for="int">Int:</label>
+                            <input type="text" id="int" name="int" class = "stat"  />
+                        </div>
+                        <div id="wisStatDiv">
+                            <label for="wis">Wis:</label>
+                            <input type="text" id="wis" name="wis" class = "stat"  />
+                        </div>
+                        <div id="chStatDiv">
+                            <label for="cha">Cha:</label>
+                            <input type="text" id="cha" name="cha" class = "stat"  />
+                        </div>
 
                     </div>
 
@@ -90,109 +116,109 @@
                                     <td><input type="checkbox" id="acrobaticsProf" name="acrobatics" ></td>
                                     <td>DEX:</td>
                                     <td>Acrobatics</td>
-                                    <td><input type="text" id="bonus" name="dexBonus"></td>   
+                                    <td><input type="text" class="bonus" name="dexBonus"></td>   
                                 </tr>
                                 <tr>
                                     <td><input type="checkbox" id="animal-handlingProf" name="animal-handling"></td>
                                     <td>WIS:</td>
                                     <td>Animal Handling</td>
-                                    <td><input type="text" id="bonus" name="wisBonus"></td> 
+                                    <td><input type="text" class="bonus" name="wisBonus"></td> 
                                 </tr>                           
                                 <tr>
                                     <td><input type="checkbox" id="arcanaProf" name="arcana"></td>
                                     <td>INT:</td>
                                     <td>Arcana</td>
-                                    <td><input type="text" id="bonus" name="intBonus"></td>   
+                                    <td><input type="text" class="bonus" name="intBonus"></td>   
                                 </tr>
                                 <tr>
                                     <td><input type="checkbox" id="athleticsProf" name="athletics"></td>
                                     <td>STR:</td>
                                     <td>Athletics</td>
-                                    <td><input type="text" id="bonus" name="strBonus"></td> 
+                                    <td><input type="text" class="bonus" name="strBonus"></td> 
                                 </tr>
                                 <tr>
                                     <td><input type="checkbox" id="deceptionProf" name="deception"></td>
                                     <td>CHA:</td>
                                     <td>Deception</td>
-                                    <td><input type="text" id="bonus" name="chaBonus"></td> 
+                                    <td><input type="text"  class="bonus" name="chaBonus"></td> 
                                 </tr>
                                 <tr>
                                     <td><input type="checkbox" id="historyProf" name="history"></td>
                                     <td>INT:</td>
                                     <td>History</td>
-                                    <td><input type="text" id="bonus" name="intBonus"></td> 
+                                    <td><input type="text"  class="bonus" name="intBonus"></td> 
                                 </tr>
                                 <tr>
                                     <td><input type="checkbox" id="insightProf" name="insight"></td>
                                     <td>WIS:</td>
                                     <td>Insight</td>
-                                    <td><input type="text" id="bonus" name="wisBonus"></td> 
+                                    <td><input type="text"  class="bonus" name="wisBonus"></td> 
                                 </tr>
                                 <tr>
                                     <td><input type="checkbox" id="intimidationProf" name="intimidation"></td>
                                     <td>CHA:</td>
                                     <td>Intimidation</td>
-                                    <td><input type="text" id="bonus" name="chaBonus"></td> 
+                                    <td><input type="text"  class="bonus" name="chaBonus"></td> 
                                 </tr>
                                 <tr>
                                     <td><input type="checkbox" id="investigationProf" name="investigation"></td>
                                     <td>INT:</td>
                                     <td>Investigation</td>
-                                    <td><input type="text" id="bonus" name="intBonus"></td> 
+                                    <td><input type="text"  class="bonus" name="intBonus"></td> 
                                 </tr>
                                 <tr>
                                     <td><input type="checkbox" id="medicineProf" name="medicine"></td>
                                     <td>WIS:</td>
                                     <td>Medicine</td>
-                                    <td><input type="text" id="bonus" name="wisBonus"></td> 
+                                    <td><input type="text"  class="bonus" name="wisBonus"></td> 
                                 </tr>
                                 <tr>
                                     <td><input type="checkbox" id="natureProf" name="nature"></td>
                                     <td>INT:</td>
                                     <td>Nature</td>
-                                    <td><input type="text" id="bonus" name="intBonus"></td> 
+                                    <td><input type="text"  class="bonus" name="intBonus"></td> 
                                 </tr>
                                 <tr>
                                     <td><input type="checkbox" id="perceptionProf" name="perception"></td>
                                     <td>WIS:</td>
                                     <td>Perception</td>
-                                    <td><input type="text" id="bonus" name="wisBonus"></td> 
+                                    <td><input type="text"  class="bonus" name="wisBonus"></td> 
                                 </tr>
                                 <tr>
                                     <td><input type="checkbox" id="performanceProf" name="performance"></td>
                                     <td>CHA:</td>
                                     <td>Performance</td>
-                                    <td><input type="text" id="bonus" name="chaBonus"></td> 
+                                    <td><input type="text"  class="bonus" name="chaBonus"></td> 
                                 </tr>
                                 <tr>
                                     <td><input type="checkbox" id="persuasionProf" name="persuasion"></td>
                                     <td>CHA:</td>
                                     <td>Persuasion</td>
-                                    <td><input type="text" id="bonus" name="chaBonus"></td> 
+                                    <td><input type="text"  class="bonus" name="chaBonus"></td> 
                                 </tr>
                                 <tr>
                                     <td><input type="checkbox" id="religionProf" name="religion"></td>
                                     <td>INT:</td>
                                     <td>Religion</td>
-                                    <td><input type="text" id="bonus" name="intBonus"></td> 
+                                    <td><input type="text"  class="bonus" name="intBonus"></td> 
                                 </tr>
                                 <tr>
                                     <td><input type="checkbox" id="sleight-of-handProf" name="sleight-of-hand"></td>
                                     <td>INT:</td>
                                     <td>Sleight of Hand</td>
-                                    <td><input type="text" id="bonus" name="intBonus"></td> 
+                                    <td><input type="text"  class="bonus" name="intBonus"></td> 
                                 </tr>
                                 <tr>
                                     <td><input type="checkbox" id="stealthProf" name="stealth"></td>
                                     <td>DEX:</td>
                                     <td>Stealth</td>
-                                    <td><input type="text" id="bonus" name="dexBonus"></td> 
+                                    <td><input type="text"  class="bonus" name="dexBonus"></td> 
                                 </tr>
                                 <tr>
                                     <td><input type="checkbox" id="survivalProf" name="survival"></td>
                                     <td>WIS:</td>
                                     <td>Survival</td>
-                                    <td><input type="text" id="survivalBonus" name="wisBonus"></td> 
+                                    <td><input type="text"  class="bonus" name="wisBonus"></td> 
                                 </tr>
     
     
@@ -202,7 +228,7 @@
     
     
                             <div id="txtBoxHold">
-                                    <textarea id="txtAreaTraits" name="txtAreaTraits" rows="33" cols="25" >
+                                    <textarea id="txtAreaTraits" name="txtAreaTraits" rows="48" cols="25" >
     
                                  </textarea>
     
@@ -274,19 +300,19 @@
 
                
                 
-            </section>
-            <section>
+            </article>
+            <article id="article2">
                 <div id="showBox">
                     <div id="leftBox"></div>
                     <div id="centerBox"></div>
                     <div id="rightBox"></div>
                 </div>
-            </section>
-            <section >
+            </article>
+            <article id="article3">
                 <div id="mapDiv"  >
 
                 </div>
-            </section>
+            </article>
         </main>
         <footer>
 

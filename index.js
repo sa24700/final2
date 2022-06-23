@@ -13,7 +13,9 @@ app.use(express.static(__dirname + '/static'))
 
 
 
- 
+     ////////////////////////////////
+    //Database functions
+    /////////////////////////////
 const mongoose = require('mongoose');
 
  
@@ -84,6 +86,11 @@ app.get('/delChar',   function(req,res){
     }
 });
 
+    ////////////////////////////////
+    //request handlers
+    /////////////////////////////
+
+
 app.get('/dndCall', async function(req,res){
    
     var results = await dndAPI(req.query.url)
@@ -101,6 +108,12 @@ app.get('/photoCall', async function(req,res){
     res.end(JSON.stringify( results.data));
 });
  
+
+    ////////////////////////////////
+    //API calls
+    /////////////////////////////
+
+
 async function photoAPI(queryString){
         const heroApiUrl = "https://imsea.herokuapp.com/api/1?q=dnd";
     try{
