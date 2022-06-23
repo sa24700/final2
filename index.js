@@ -34,17 +34,24 @@ mongoose.connection.on("connected", () =>{
 app.get('/submitChar',   function(req,res){
  
      try{
-		console.log("here ist he subchar " + req.query.name + " " + req.query.race + " " + req.query.class );
-		let newChar =  new beginner({
-			name: req.query.name,
-			race: req.query.race,
-			class: req.query.class
-		})
+        console.log("here ist he subchar " + req.query.name + " " + req.query.race + " " + req.query.class );
+        let newChar =  new beginner({
+          name: req.query.name,
+          race: req.query.race,
+          class: req.query.class
+        })
 
-    console.log("Here is the newChar " + newChar);
-		 newChar.save();
-       
-        res.redirect('/');
+          console.log("Here is the newChar " + newChar);
+          newChar.save((error) =>{
+          if(error){
+            console.log("There was an error " + error);
+          }
+          else{
+            console.log("Data saved");
+          }
+        });
+          
+            res.redirect('/');
          
      }
      catch(e){
@@ -53,38 +60,51 @@ app.get('/submitChar',   function(req,res){
       
 });
 
+const renderChars  = ((charArray) =>{
+  var text = "These are the currently saved chars.\n\n";
+
+  charArray.forEach((character)=>{
+      text += `NAME: ${character.name}\nRACE: ${character.race}\nCLASS: ${character.class}`;
+  });
+
+  return text;
+});
 
 app.get('/displayAll',   function(req,res){
      
-	try{
-		
-		 beginner.find({}).then(char =>{
-       
-		    
-		   res.end(JSON.stringify(char));
-		}) 
-		
-	}
-	catch(e){
-	   console.log(e);
-	}
+    try{
+      
+        beginner.find({}).then(character =>{ 
+            res.type("text/plain");
+            res.send(renderChars(character));
+          
+            
+            
+          
+       // res.end(JSON.stringify(char));
+      }) 
+      
+    }
+    catch(e){
+      console.log(e);
+    }
 });
 
 
 
 app.get('/delChar',   function(req,res){
 
-	try{
-		 
-		 beginner.deleteOne({name: req.query.charName}).then(function(){
-		console.log(`The query has   matches ` + req.query.charName); 
-		res.redirect('/');
-		});
+    try{
+      
+      beginner.deleteOne({name: req.query.charName}).then(function(){
+      console.log(`The query has   matches ` + req.query.charName); 
+      res.redirect('/');
+      });
 
-	}
-	catch(e){
-	   console.log(e);
-	}
+    }
+    catch(e){
+      console.log(e);
+    }
 });
 
 app.get('/dndCall', async function(req,res){
@@ -105,7 +125,7 @@ app.get('/photoCall', async function(req,res){
 });
  
 async function photoAPI(queryString){
-    const heroApiUrl = "https://imsea.herokuapp.com/api/1?q=dnd";
+        const heroApiUrl = "https://imsea.herokuapp.com/api/1?q=dnd";
     try{
         const imgInfo = await axios.get(heroApiUrl+queryString);
  
@@ -118,14 +138,9 @@ async function photoAPI(queryString){
 
 async function dndAPI(myString ){
     var baseApiUrl = "https://www.dnd5eapi.co";
-    try{
-		console.log("33333333333333333333333333333");
-    const call = await axios.get(baseApiUrl + myString);
-	 
-	 
-    
-	
-    return call;
+    try{		 
+      const call = await axios.get(baseApiUrl + myString);
+      return call;
     }
     catch(e){
 
