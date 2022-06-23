@@ -27,18 +27,21 @@ const charSchema = {
 	class: String
 }
 const beginner = mongoose.model("beginner", charSchema);
-   
+mongoose.connection.on("connected", () =>{
+  console.log("Mongoose has connected.");
+});
 
 app.get('/submitChar',   function(req,res){
  
      try{
-		console.log("here ist he subchar " );
+		console.log("here ist he subchar " + req.query.name + " " + req.query.race + " " + req.query.class );
 		let newChar =  new beginner({
 			name: req.query.name,
 			race: req.query.race,
 			class: req.query.class
 		})
 
+    console.log("Here is the newChar " + newChar);
 		 newChar.save();
        
         res.redirect('/');
@@ -55,10 +58,11 @@ app.get('/displayAll',   function(req,res){
      
 	try{
 		
-		 beginner.find({}).then(char => {
-		   console.log("find all " + char);
+		 beginner.find({}).then(char =>{
+       
+		    
 		   res.end(JSON.stringify(char));
-		})
+		}) 
 		
 	}
 	catch(e){
