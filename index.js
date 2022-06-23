@@ -13,8 +13,7 @@ app.use(express.static(__dirname + '/static'))
 
 
 
-const bodyParser = require('body-parser');
-app.use(bodyParser.urlencoded({extended:true}));
+ 
 const mongoose = require('mongoose');
 
  
