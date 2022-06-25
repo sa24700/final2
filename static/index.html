@@ -7,7 +7,7 @@
     </head>
     <body onload="initForm()">
         <header>
-            <h1>1st Level Character Creator</h1>
+            <h1>The Bone Machine</h1>
         </header>
         <main>
             <button id="dirBtn" type="button" onclick="popUp()">Show Instructions</button>
@@ -24,6 +24,8 @@
                         <li>"clear" clears the form</li>
                         <li>the bottom text area is for notes and you can add equipment in the equipment box</li>
                         <li>You can also add more rows to the equipment box if needed.</li>
+                        <li>You can generate a random graph showing the character's emotional range and picking a dominant emotion</li>
+                        <li>Submit saves the character to a database and from the appropriate table you can delete it</li>
                     </ul>
                 </div>
                 </div>
@@ -304,7 +306,17 @@
             <article id="article2">
                 <div id="showBox">
                     <div id="leftBox"></div>
-                    <div id="centerBox"></div>
+                    <div id="centerBox">
+                        <div id="centerHold">
+                            <div id="canvasHold">
+                                <canvas id="myChart"></canvas>
+                            </div>
+                        </div>
+                        <div id="graphBtnDiv">
+                            <select id="emotionChoice"></select>
+                            <button type="button" onclick="chartCall()" id="graphBtn">New Graph</button>
+                        </div>
+                    </div>
                     <div id="rightBox"></div>
                 </div>
             </article>
@@ -320,8 +332,9 @@
          
          <script src="./map.js"></script>
         <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqn66wbAk_6zVy-PeA0eViS8OZpYEGRog&callback=initMap"></script>
- 
+       <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> 
        <script src="./myScript.js"></script>
+
     </body>
 
 </html>

@@ -139,10 +139,14 @@ td{
 #article2{
     border-top:1px solid black;
     border-bottom: 1px solid black;
+    width: 100%;
+    height: 100%;
 }
+
+ 
  #showBox{
     display:flex;
-    flex-direction:column;
+    flex-direction:row;
 }
 #leftBox{
     width: 100%;
@@ -159,7 +163,51 @@ td{
     height: 400px;
 }
 
+#centerBox{
+    height: 100%;
+    width:100%;
+    display:flex;
+    flex-direction:column;
 
+    
+}
+#centerHold{
+ contain: content;
+ height: 90%;
+ width:98%;
+    
+ 
+}
+
+#canvasHold{
+    height: 90%;
+    width:98%;
+ 
+}
+
+#graphBtnDiv{
+    clear: both;
+    height:30%;
+    width:98%;
+ 
+}
+#emotionChoice{
+    height: 50%;
+    width:98%;
+    float:left;
+
+}
+
+#graphBtn{
+    height: 50%;
+    width:98%;
+    clear:left;
+}
+
+#myChart{
+    height: 100%;
+    width:  100%;
+}
 /*/////////////////
 //  MODAL STYLES
 /////////////////////
@@ -177,6 +225,12 @@ td{
   #close{
     margin-left: 50%;
   }
+
+
+  /*/////////////////
+//  CHAR FORM STYLES
+/////////////////////
+////////////////////*/
 
   #btnDiv{
     clear:both;
@@ -270,8 +324,11 @@ td{
 //  article 3 STYLES
 /////////////////////
 ////////////////////*/
+#article3{
+    clear:both;
+}
 
-  #mapDiv{
+#mapDiv{
     height: 400px;
     width: 100%;
 }

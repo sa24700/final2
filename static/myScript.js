@@ -19,8 +19,17 @@ const options = {
     }; 
 var modal = document.getElementById("directionModal");
 var btn = document.getElementById("modalBtn");
-
-
+var myChart = null;
+const labels = [
+    'Anger',
+    'Anticipation',
+    'Disgust',
+    'Sadness',
+    'Surprise',
+    'Fear',
+    'Acceptance',
+    'Joy'
+  ];
     ////////////////////////////////
     //Modal show and hide
     /////////////////////////////       
@@ -46,7 +55,7 @@ try{
      
     tryCall = await fetch('/dndCall' + '?url=/api/races', options);
     results = await tryCall.json();
-    
+
     var option = document.createElement("option");
     option.text = "";
     selRace.add(option);
@@ -415,6 +424,7 @@ async function setStats(passClass){
    
    try{
     await leftPicBuilder(passClass);
+    chartCall();
    }
    catch(e){
 
@@ -606,16 +616,23 @@ function addMarker(passName){
             map: myMap,
             draggable:true
         });
-         
+
+        myMap.setCenter({lat:myLat,lng:myLng});  
+
+        var updatedCoords = myLat;
+        console.log("myLat base: " + myLat);
+          updatedCoords += .10000;
+          console.log("myLat updated: " + updatedCoords);
         var infoWindow = new google.maps.InfoWindow({
-            content: `${passName}'s home` 
+            content: `${passName}'s home`,
+            pixelOffset: new google.maps.Size(100,100)
         });
 
         marker.addListener('click',function(){
             infoWindow.open(myMap,marker);
         });
 
-        myMap.setCenter({lat:myLat,lng:myLng});
+       
     }
 
 
@@ -671,4 +688,102 @@ async function fillTable(){
     }
 }
 
+    ////////////////////////////////
+    //CHART functions
+    /////////////////////////////
+
+
+function makeEmotionArray(choice){
+    var emotionValArray = [];
+
+
+    if(choice == ""){
+        for(var i = 0; i < 8; i++){
+            emotionValArray.push(randomNum(10));
+        }
+    }
+    else{
+        for(var i = 0; i < 7; i++){
+            emotionValArray.push(randomNum(7));
+        }
+        var index = labels.indexOf(choice);
+        var highestEmotion =  Math.floor(Math.random() * 9 + 7);
+        emotionValArray.splice(index,0,highestEmotion);
+    }
+
+    return emotionValArray;
+}
+function emotionArrayFill(){
+    var emotion = document.getElementById("emotionChoice");
+
+    if(emotion.options.length == 0){
+
+            option = document.createElement("option");
+            option.text = "";
+            emotion.add(option);
+
+            labels.forEach((el) =>{
+            option = document.createElement("option");
+            option.text = el;
+            emotion.add(option);
+        });        
+    }
+
+}
+function makeChart(){
+    var emotion = document.getElementById("emotionChoice");
+    emotionArrayFill();
  
+
+    
+      const data = {
+        labels: labels,
+        datasets: [{
+          label: 'Temperment',
+          backgroundColor: [
+            'red',
+            'blue',
+            'green',
+            'yellow',
+            'orange',
+            'purple',
+            'white',
+            'black'
+        
+        ],
+          borderColor: 'rgb(255, 99, 132)',
+          data: makeEmotionArray(emotion.value)
+        }]
+      };
+    
+      const config = {
+        type: 'doughnut',
+        data: data,
+        options: {
+            maintainAspectRatio: false
+        }
+      };
+
+        myChart = new Chart(
+        document.getElementById('myChart'),
+        config
+      );
+
+     
+
+}
+
+function updateChart(){
+    myChart.destroy();
+    makeChart();
+}
+
+function chartCall(){
+
+    if(myChart == null){
+        makeChart();
+    }
+    else{
+        updateChart();
+    }
+}
