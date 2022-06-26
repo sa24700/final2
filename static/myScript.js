@@ -302,8 +302,6 @@ function classSetUp(classResults){
         for(let i = 0; i < count; i++) {
             var fullSkill = fromArray[randomNum(fromArray.length - 1)];
             var skill = fullSkill.substring(6);
-            console.log("here is the fromArray.length " + fullSkill);
-
             if(document.getElementById( skill.toLowerCase() +"Prof") !== null){
                 document.getElementById( skill.toLowerCase() +"Prof").checked = true;  
             }
