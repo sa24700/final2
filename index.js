@@ -36,14 +36,14 @@ mongoose.connection.on("connected", () =>{
 app.get('/submitChar',  async function(req,res){
  
      try{
-        console.log("here ist he subchar " + req.query.name + " " + req.query.race + " " + req.query.class );
+        
         let newChar =  new beginner({
           name: req.query.name,
           race: req.query.race,
           class: req.query.class
         })
 
-          console.log("Here is the newChar " + newChar);
+          
           await newChar.save();
           
             res.redirect('/');
@@ -76,7 +76,7 @@ app.get('/delChar',   function(req,res){
     try{
       
       beginner.deleteOne({name: req.query.charName}).then(function(){
-      console.log(`The query has   matches ` + req.query.charName); 
+       
       res.redirect('/');
       });
 
