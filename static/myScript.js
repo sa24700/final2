@@ -104,7 +104,7 @@ async function charGen(){
     if(classVal == ""){
         infoQuery = "/api/classes"
         tryCall = await fetch('/dndCall' + '?url=' + infoQuery, options);
-      console.log("////////////"   );
+      
         //results = await tryCall.json(); 
         results = await tryCall.json();
         count = results["count"];
@@ -112,7 +112,7 @@ async function charGen(){
         
         tryCall = await fetch('/dndCall' + '?url=' + "/api/classes/" + charClass, options);
         results = await tryCall.json();
-        console.log("$class value " + results["name"]);
+         
        $class.value =   results["name"];
        
         classSetUp(results);
@@ -133,10 +133,10 @@ async function charGen(){
         infoQuery = "/api/races"
         tryCall = await fetch('/dndCall' + '?url=' + infoQuery, options);
         results = await tryCall.json();
-        console.log("here is the infoQuery" + results["count"]);
+        
         count = results["count"];
         var charRace = results["results"][randomNum(count)]["index"];
-        console.log("//////////RACES " + charRace);
+        
         tryCall = await fetch('/dndCall' + '?url=' + "/api/races/" + charRace, options);
         results = await tryCall.json();  
 
@@ -226,7 +226,7 @@ function raceProperties(passResults){
                    }
 
                 }
-                console.log("newSkillString " + newSkillString);
+                
                 document.getElementById(newSkillString + "Prof").checked = true;
             }
             else{
@@ -266,7 +266,7 @@ function raceProperties(passResults){
 
     if(passResults.hasOwnProperty("language_options")){
         count = Number(passResults["language_options"].choose) ;
-        console.log("choose " + passResults["language_options"]["from"][0]);
+        
         for(let i = 0; i < count; i++) {
             document.getElementById("txtAreaTraits").value += "(+)" +passResults["language_options"]["from"][randomNum(passResults["language_options"]["from"].length)]["name"] + "\n";
             passResults["language_options"]["from"].push(passResults["language_options"]["from"].splice(passResults["language_options"]["from"].indexOf(document.getElementById("txtAreaTraits").value), 1)[0]);
@@ -298,7 +298,7 @@ function classSetUp(classResults){
         firstFromArray.forEach((el) =>{
              fromArray.push(el["index"]);
         });
-        console.log("Class choose " +  fromArray[1] );
+         
         for(let i = 0; i < count; i++) {
             var fullSkill = fromArray[randomNum(fromArray.length - 1)];
             var skill = fullSkill.substring(6);
@@ -336,8 +336,7 @@ function classSetUp(classResults){
 
                 addRowArgs(el["quantity"],el["equipment"]["name"],0);
 
-                console.log("starting equp length " + classResults["starting_equipment"] );
-                 console.log("starting equipment name " +classResults["starting_equipment"][0]["equipment"]["name"] );    
+                  
 
             });
         }
@@ -477,7 +476,7 @@ function setStatsByClass(highStat, nextHighStat){
  function addBonusMod(charBonusArray){
     
     stats.forEach((val) => {
-        console.log("Here is the val " + val);
+        
         document.getElementsByName(val+"Bonus").forEach((el)=>{
                      el.value = Math.floor((document.getElementById(val).value - 10) / 2);
   
@@ -620,9 +619,9 @@ function addMarker(passName){
         myMap.setCenter({lat:myLat,lng:myLng});  
 
         var updatedCoords = myLat;
-        console.log("myLat base: " + myLat);
+         
           updatedCoords += .10000;
-          console.log("myLat updated: " + updatedCoords);
+           
         var infoWindow = new google.maps.InfoWindow({
             content: `${passName}'s home`,
             pixelOffset: new google.maps.Size(100,100)
@@ -645,7 +644,7 @@ async function charDelete(rowNum){
     try{
         var cell = document.getElementById("charTable").rows[rowNum].cells[0];
         var newString = cell.innerHTML.substring(3,cell.innerHTML.length-4);
-        console.log("Here is the cell info " + newString);
+        
     
         tryCall = await fetch('/delChar?charName=' + newString , options);
         window.location.reload();
