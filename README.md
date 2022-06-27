@@ -1,3 +1,10 @@
-# Node.js and Express Hosted on Microsoft Azure Template
-This repository serves as a template that can be used to create a Node.js and Express based website that can easily
-be hosted on Microsoft Azure.
+# final2
+# project name: TheBoneMachine
+# Shawn Amato
+# shawnlamato@lewisu.edu
+
+Template files by Eric Pogue.
+
+Here is the link to the project proposal:
+
+https://lively-mushroom-0a6d2b210.1.azurestaticapps.net/
