@@ -106,3 +106,24 @@ table ,tr  {
     height: 8%;
     width: 10%;
 }
+
+nav {
+    background-color: #F5F8DE;
+    padding: 2%;
+  }
+  
+  nav a{
+  
+    text-decoration: none;
+    color:black;
+    font-size: 1.5em;
+  
+  }
+  
+  nav a:hover{
+  
+    text-decoration: none;
+    color:darkgrey;
+    font-size: 1.5em;
+  
+  }
