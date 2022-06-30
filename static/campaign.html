@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <title>Campaign</title>
+        
+        <link rel="stylesheet"  href="./campaignStyles.css" />
+        <meta charset="UTF-8" />
+        
+    </head>
+    <body onload="campaignMaker()">
+        <header>
+            <h1>Find the French dragon!</h1>
+        </header>
+         
+          
+                
+            <article>
+                <div id="btnDiv">
+                    <div id="art1InfoDiv">
+                        <h2 id="battleTitle">Crab Battle:</h2>
+                        <div id="info1">
+                            <table  >
+                                <thead>
+                                    <tr>
+                                        <td  colspan="4" id="enemyPic"></td>
+                                    </tr>
+                                </thead>
+                                <tr>
+                                    <td>HP:</td>
+                                    <td id="hp1"></td>
+                                    <td>ARMOR:</td>
+                                    <td id="cr1"></td>                                
+                                </tr>
+                                <tr>
+                                    <td>You can win against:</td>
+                                    <td id="enemyNum"></td>
+                                </tr>
+    
+                            </table>
+                        </div>
+                    </div>
+                    <div id="art1Map"></div>
+                </div>
+                    <button type="button" id="finishBtn" >Completed</button>
+            </article>
+        
+       
+           
+            <script src="./campaign.js"></script>            
+            <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqn66wbAk_6zVy-PeA0eViS8OZpYEGRog&callback=initMap"></script>
+
+    </body >
+</html>
