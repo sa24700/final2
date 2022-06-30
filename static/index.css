@@ -49,6 +49,32 @@ main{
     
 }
 
+nav {
+  background-color: #AB3428;
+  padding: 2%;
+}
+
+nav a{
+
+  text-decoration: none;
+  color:black;
+  font-size: 1.5em;
+
+}
+
+nav a:hover{
+
+  text-decoration: none;
+  color:darkgrey;
+  font-size: 1.5em;
+
+}
+
+#mainBody{
+
+  visibility: hidden;
+}
+
 article{
 
     padding: 2%;
@@ -110,9 +136,9 @@ td{
     clear:both;
 }
 #equipment {
-    width: 40%;
+    width: 70%;
     height: 50%;
-    margin-left: 30%;
+  
     overflow: auto;
 }
 #txtAreaClassTraits{
@@ -208,6 +234,16 @@ td{
     height: 100%;
     width:  100%;
 }
+
+#pictureChoice{
+  height: 80%;
+  width: 100%;
+}
+
+.rightClassPic{
+  height: 100%;
+  width:100%;
+}
 /*/////////////////
 //  MODAL STYLES
 /////////////////////
@@ -293,11 +329,11 @@ td{
 //   #equipmentTable STYLES
 /////////////////////
 ////////////////////*/
-  #equipmentTable {
+  #equipmentTable,#viewEquipmentTable {
     width: 100%;
    
 }
-  #equipmentTable td input{
+  #equipmentTable td input,#viewEquipmentTable td input{
     width: 100%;
     box-sizing: border-box;
   }
@@ -319,7 +355,9 @@ td{
     margin: 1%;
   }
 
-
+  .delBtn, .viewBtn{
+    margin:1%;
+  }
 /*/////////////////
 //  article 3 STYLES
 /////////////////////
