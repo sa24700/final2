@@ -3,6 +3,7 @@ var imgQuery = "";
 var countryQuery = "";
 var infoQuery = "";
 var flag = false;
+var charGenFlag = false;
 var count = 0;
 var stat, mod;
 var statBonus = Math.floor(((stat - 10)/2)+ mod);
@@ -12,6 +13,7 @@ var stats = new Set(["wis","cha","con","int","str","dex"]);
 var coordsArray = [{lat: 48.434 , lng: 0 ,offset: 130},{lat: -30.114,lng: 26.89, offset:60}];
 var charName = "";
 var myMap;
+var marker;
 var results;
 var tryCall;
 const options = {       
@@ -46,48 +48,86 @@ const labels = [
     //Filling race and class select boxes with api info
     /////////////////////////////
 
+async function viewInit(){
+    await initForm();
+    await fillTable();
+}
 
 async function initForm(){
-selRace = document.getElementById("selRace");
-selClass = document.getElementById("selClass");
+    selRace = document.getElementById("selRace");
+    selClass = document.getElementById("selClass");
 
-try{
-     
-    tryCall = await fetch('/dndCall' + '?url=/api/races', options);
-    results = await tryCall.json();
+    try{
+        
+        tryCall = await fetch('/dndCall' + '?url=/api/races', options);
+        results = await tryCall.json();
 
-    var option = document.createElement("option");
-    option.text = "";
-    selRace.add(option);
-    option = document.createElement("option");
-    option.text = "";   
-    selClass.add(option);
-     
-    results["results"].forEach((el) =>{
-        option = document.createElement("option");
-        option.text = el.name;
+        var option = document.createElement("option");
+        option.text = "";
         selRace.add(option);
-    });
- 
-    tryCall = await fetch('/dndCall' + '?url=/api/classes', options);
-    results = await tryCall.json();
-     
-
-    results["results"].forEach((el) =>{
         option = document.createElement("option");
-        option.text = el.name;
+        option.text = "";   
         selClass.add(option);
-    });
-   
+        
+        results["results"].forEach((el) =>{
+            option = document.createElement("option");
+            option.text = el.name;
+            selRace.add(option);
+        });
+    
+        tryCall = await fetch('/dndCall' + '?url=/api/classes', options);
+        results = await tryCall.json();
+        
 
-    await fillTable();
-     
-}
-catch(e){
+        results["results"].forEach((el) =>{
+            option = document.createElement("option");
+            option.text = el.name;
+            selClass.add(option);
+        });
+    
+
+        
+        
+    }
+    catch(e){
+
+    }
 
 }
 
+    ////////////////////////////////
+    //Function for consecutive create character clicks
+    /////////////////////////////
+async  function begin(){
+    document.getElementById("charGenBtn").disabled = true;
+    setTimeout(function(){document.getElementById("charGenBtn").disabled = false;},5000);
+    clearFillChart();
 }
+
+async function clearFillChart(){
+    if(charGenFlag == false){
+        
+        await charGen();
+        
+    }
+    else  {
+        
+        document.getElementById("charForm").reset();
+
+        
+       while(document.getElementById("equipmentTable").rows.length -1 > 0){            
+            document.getElementById("equipmentTable").deleteRow(1);
+        }
+        addRow();
+        charGenFlag = false;
+        removeMarker();
+        await charGen() ;
+    }
+
+
+}
+
+
 
     ////////////////////////////////
     //Getting race and class from user input or random gen
@@ -95,6 +135,8 @@ catch(e){
 
 
 async function charGen(){
+    charGenFlag = true;
+
     $race = document.getElementById("selRace");
         raceVal = $race.value.toLowerCase();
     $class = document.getElementById("selClass");  
@@ -105,7 +147,7 @@ async function charGen(){
         infoQuery = "/api/classes"
         tryCall = await fetch('/dndCall' + '?url=' + infoQuery, options);
       
-        //results = await tryCall.json(); 
+         
         results = await tryCall.json();
         count = results["count"];
         var charClass = results["results"][randomNum(count)]["index"];
@@ -133,7 +175,7 @@ async function charGen(){
         infoQuery = "/api/races"
         tryCall = await fetch('/dndCall' + '?url=' + infoQuery, options);
         results = await tryCall.json();
-        
+         
         count = results["count"];
         var charRace = results["results"][randomNum(count)]["index"];
         
@@ -226,7 +268,7 @@ function raceProperties(passResults){
                    }
 
                 }
-                
+                 
                 document.getElementById(newSkillString + "Prof").checked = true;
             }
             else{
@@ -298,10 +340,12 @@ function classSetUp(classResults){
         firstFromArray.forEach((el) =>{
              fromArray.push(el["index"]);
         });
-         
+        
         for(let i = 0; i < count; i++) {
             var fullSkill = fromArray[randomNum(fromArray.length - 1)];
             var skill = fullSkill.substring(6);
+            
+
             if(document.getElementById( skill.toLowerCase() +"Prof") !== null){
                 document.getElementById( skill.toLowerCase() +"Prof").checked = true;  
             }
@@ -332,10 +376,9 @@ function classSetUp(classResults){
             
             classResults["starting_equipment"].forEach((el) =>{
 
-                addRowArgs(el["quantity"],el["equipment"]["name"],0);
+                addRowArgs("equipmentTable",el["quantity"],el["equipment"]["name"],0);
 
-                  
-
+               
             });
         }
 
@@ -364,7 +407,7 @@ function classSetUp(classResults){
                 tempName = temp["equipment"]["name"];
                 tempQuant = temp["quantity"]
              }            
-            addRowArgs("(+)" + tempQuant,"(+)" + tempName,0);
+            addRowArgs("equipmentTable","(+)" + tempQuant,"(+)" + tempName,0);
 
         } 
        
@@ -420,11 +463,13 @@ async function setStats(passClass){
       }
    
    try{
-    await leftPicBuilder(passClass);
+    if(passClass !== null || passClass !== undefined){
+        await leftPicBuilder(passClass);
+    }
     chartCall();
    }
    catch(e){
-
+    console.log("Reloading leftPicBuilder");
    }
 }
 
@@ -474,7 +519,7 @@ function setStatsByClass(highStat, nextHighStat){
  function addBonusMod(charBonusArray){
     
     stats.forEach((val) => {
-        
+      
         document.getElementsByName(val+"Bonus").forEach((el)=>{
                      el.value = Math.floor((document.getElementById(val).value - 10) / 2);
   
@@ -508,9 +553,9 @@ function addRow(){
     var cell2 = row.insertCell(1);
     var cell3 = row.insertCell(2);
 
-    cell1.innerHTML = " <td><input type='text' id='quantityCell' class='addCellInput'></td>";
-    cell2.innerHTML = " <td><input type='text' id='itemCell' class='addCellInput'></td>";
-    cell3.innerHTML = " <td><input type='text' id='weightCell' class='addCellInput'></td>";
+    cell1.innerHTML = `<td><input type="text" id="quantity" name="equipQuant"></td>`;
+    cell2.innerHTML =  `<td><input type="text" id="item" name="equipItem"></td>`;
+    cell3.innerHTML = ` <td><input type="text" id="weight" name="equipWght"></td> `;
 
 }
 
@@ -519,17 +564,17 @@ function addRow(){
     /////////////////////////////
 
 
-function addRowArgs(quant,item,wght){
+function addRowArgs(tableID,quant,item,wght){
 
-    table =  document.getElementById("equipmentTable");
+    table =  document.getElementById(tableID);
    var row = table.insertRow(-1);
    var cell1 = row.insertCell(0);
    var cell2 = row.insertCell(1);
    var cell3 = row.insertCell(2);
 
-   cell1.innerHTML = ` <td><input type='text' id='quantityCell' class='addCellInput' value ="${quant}" >   </td>`;
-   cell2.innerHTML = ` <td><input type='text' id='itemCell' class='addCellInput' value ="${item}"></td>`;
-   cell3.innerHTML = ` <td><input type='text' id='weightCell' class='addCellInput' value ="${wght}"></td>`;
+   cell1.innerHTML = ` <td><input type="text" id="quantity" name="equipQuant" value ="${quant}" >   </td>`;
+   cell2.innerHTML = `<td><input type="text" id="item" name="equipItem" value ="${item}"></td>`;
+   cell3.innerHTML = `<td><input type="text" id="weight" name="equipWght" value ="${wght}"></td>`;
 
 }
 
@@ -551,19 +596,24 @@ function randomNum(topNum){
 
  function picRotate(results, givenClass){
     var passClass;
+    $left = document.getElementById("leftBox");    
     try{
-        passClass = givenClass;
-        var number = 0;
-        number = randomNum(results.length - 1);
-        var data = results[number]; 
-    
-        $left = document.getElementById("leftBox");
-        $left.innerHTML =  "";
-        $left.innerHTML = "<div id='showCase'>" +
 
-        `<img src="${data }" alt="${passClass}" class="classPic" />` +
+        
+
+            passClass = givenClass;
+            var number = 0;
+            number = randomNum(results.length - 1);
+            var data = results[number]; 
+        
     
-        "</div>";  
+            $left.innerHTML =  "";
+            $left.innerHTML = "<div id='showCase'>" +
+    
+            `<img src="${data }" alt="${passClass}" class="classPic" />` +
+        
+            "</div>";  
+ 
     }
     catch(e)
     {
@@ -575,17 +625,75 @@ function randomNum(topNum){
     //fetching photo api array from server call
     /////////////////////////////
 
-async function leftPicBuilder(passClass){
+async function addPic( ){
+    var choice = document.getElementById('picChoice').value;
+
+    console.log("addpic choice " + choice);
     try{
-          
-    tryCall = await fetch('/photoCall' + '?className=' + passClass, options);
-    results = await tryCall.json();
-    results = results["results"];
-    
-    await setInterval(function(){picRotate(results, passClass)}, 3000);
+      
+            
+        tryCall = await fetch('/addPic' + '?choice=' + choice, options);
+        results = await tryCall.json();
+        console.log("addpic choice " + results['results']);
+            
+            if(results["results"].length >= 1){
+                    results = results["results"];
+        
+                     await setInterval(function(){rightPicRotate(results, choice)}, 3000);
+            }
+         
     }
     catch(e){
+        console.log(e);
+    }
 
+}
+
+async function rightPicRotate(rightResults,passChoice){
+   
+    $right = document.getElementById("pictureChoice");    
+    try{
+            var number = 0;
+            number = randomNum(rightResults.length - 1);
+            var pic = rightResults[number]; 
+        
+    
+            $right.innerHTML =  "";
+            $right.innerHTML =  
+    
+            `<img src="${pic }" alt="${passChoice}" class="rightClassPic" />`  
+        
+            ;  
+ 
+    }
+    catch(e)
+    {
+        console.log(e);
+    }
+
+}
+
+
+async function leftPicBuilder(passClass){
+    try{
+       
+        tryCall = await fetch('/photoCall' + '?className=' + passClass, options);
+        results = await tryCall.json();
+    
+        if(results['image_name']!== "dnd" +passClass) {
+
+            return;
+        }else{
+            if(results["results"].length >= 1 ){
+                    results = results["results"];
+        
+                     await setInterval(function(){picRotate(results, passClass)}, 3000);
+            }
+       
+        }
+    }
+    catch(e){
+        console.log(e);
     }  
 }
 
@@ -593,6 +701,11 @@ async function leftPicBuilder(passClass){
     ////////////////////////////////
     //add map Marker
     /////////////////////////////
+
+function removeMarker(){
+    marker.setMap(null);
+}
+
 
 function addMarker(passName){
 
@@ -608,7 +721,7 @@ function addMarker(passName){
             myLat = randomNum(coordsArray[1].offset)
             myLng = coordsArray[1].lng;
         }
-        var marker = new google.maps.Marker({
+          marker = new google.maps.Marker({
             position: {lat:myLat,lng:myLng},
             map: myMap,
             draggable:true
@@ -642,7 +755,7 @@ async function charDelete(rowNum){
     try{
         var cell = document.getElementById("charTable").rows[rowNum].cells[0];
         var newString = cell.innerHTML.substring(3,cell.innerHTML.length-4);
-        
+        console.log("Here is the cell info " + newString);
     
         tryCall = await fetch('/delChar?charName=' + newString , options);
         window.location.reload();
@@ -650,6 +763,67 @@ async function charDelete(rowNum){
     catch(e){
         console.log(e);
     }
+}
+
+
+async function charView(rowNum){
+    try{
+        var cell = document.getElementById("charTable").rows[rowNum].cells[0];
+        var newString = cell.innerHTML.substring(3,cell.innerHTML.length-4);
+        console.log("Here is the cell info " + newString);
+    
+        tryCall = await fetch('/viewChar?charName=' + newString , options);
+        results = await tryCall.json();
+        console.log(results);
+        document.getElementById("mainBody").style.visibility = "visible";
+        document.getElementById("selRace").value = results.race;
+        document.getElementById("selClass").value = results.class;
+        document.getElementById("name").value = results.name;
+        document.getElementById("hp").value = results.hp;
+        document.getElementById("size").value = results.size;
+        document.getElementById("speed").value = results.speed;
+        document.getElementById("dex").value = results.dex;
+        document.getElementById("str").value = results.str;
+
+        document.getElementById("int").value = results.int;
+        document.getElementById("con").value = results.con;
+        document.getElementById("wis").value = results.wis;
+        document.getElementById("cha").value = results.cha;
+        document.getElementById("txtAreaTraits").value = results.txtAreaTraits;
+
+
+        bonusSetting("dexBonus",results.dexBonus);
+        bonusSetting("strBonus",results.strBonus);
+        bonusSetting("conBonus",results.conBonus);
+        bonusSetting("wisBonus",results.wisBonus);
+        bonusSetting("chaBonus",results.chaBonus);
+        bonusSetting("intBonus",results.intBonus);
+
+        results.skills.forEach((skill)=>{
+            document.getElementById(skill+"Prof").checked = true;
+        });
+
+        document.getElementById("txtAreaClassTraits").value = results.txtAreaClassTraits;
+
+        for(var i = 0; i < results.item.length; i++){
+
+            addRowArgs("viewEquipmentTable",results.quantity[i],results.item[i],0);
+        }
+      
+      
+    }
+    catch(e){
+        console.log(e);
+    }
+}
+
+function bonusSetting(bonusName,bonusArray){
+    var bonusInput = document.getElementsByName(bonusName);
+    var i = 0;
+    bonusArray.forEach((bonus) =>{
+        bonusInput[i].value = bonus;
+        i++;
+    });
 }
 
     ////////////////////////////////
@@ -673,10 +847,11 @@ async function fillTable(){
             cell.innerHTML = `<td><p>${el.name}</p></td>`;
             cell2.innerHTML = `<td><p>${el.class}</p></td>`;
             cell3.innerHTML = `<td><p>${el.race}</p></td>`;
-            cell4.innerHTML = "<td><button onclick=" +
-                                `charDelete(${i})`+
-                                ">Delete</button";
-    
+            cell4.innerHTML = "<td id='btnTD'>"+
+                                         `<button class="delBtn" onclick="charDelete(${i})">Delete</button>`+
+                                        `<button class="viewBtn" onclick="charView(${i})">View</button></td`;
+           
+           
             i++;
         }); 
     }
