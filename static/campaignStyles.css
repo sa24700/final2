@@ -1,0 +1,108 @@
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video,main {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+ 
+  
+   
+}
+
+
+/*/////////////////
+//  GENERAL STYLES
+/////////////////////
+////////////////////*/
+html, body{
+    height: 100%;
+    width: 100%;
+    display: block;
+    background-color: #1C2826;
+}
+
+header {
+    background-color: #D64550;
+    padding: 5%;
+}
+
+h1{
+ 
+    text-align: center;
+    font-size: 4em;
+    width:100%;
+}
+#battleTitle{
+    padding: 2%;
+} 
+h2{
+   
+    font-size: 2em;
+}
+
+main {
+  
+    width:  98%;
+    height:98%;
+   
+
+     
+}
+
+article {
+    background-color: #EDF4ED;
+    clear:both;
+    overflow:hidden;
+    margin-bottom: 2%;
+    margin-left: 7%;
+    height: 60%;
+    width:80%;
+    padding: 2%;
+    border: 2px solid black;
+}
+
+#btnDiv{
+    height: 90%;
+    width: 100%;
+}
+ 
+
+#art1Map{
+ 
+    float:right;
+    height:85%;
+    width: 35%;
+    
+    
+}
+#art1InfoDiv{
+    float:left;
+    height:100%;
+    width: 35%;
+
+}
+table ,tr  {
+    padding: .5%;
+    border: 1px solid black;
+}
+.enemyPic{
+    width: 300px;
+    height:200px;
+}
+
+#finishBtn{
+    clear:both;
+    height: 8%;
+    width: 10%;
+}
