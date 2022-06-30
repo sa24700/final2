@@ -26,16 +26,17 @@ async function campaignMaker(){
 
     if(i < monsterArray.length){
         await articleBuilder(monsterArray[i]);
-        console.log("results " + monsterArray[i]);
+        
         document.getElementById('battleTitle').innerHTML =  titleArray[i];
-       
-    }
-    else{
-        i = 0;
-    }
     removeMarker();
       newCenter( coordsArray[i], monsterArray[i],playerCoordsArray[i])  ;
-     i += 1;
+     i += 1;       
+     
+    }
+    else if(i == monsterArray.length){
+        i = 0;
+    }
+
 }
 
 async function articleBuilder(monsterName){
@@ -43,7 +44,7 @@ async function articleBuilder(monsterName){
     results = await tryCall.json();
    
     infoBuilder(results);
-     console.log("results " + results['name']);
+     
 }
 
 async function infoBuilder(enemyInfo){
@@ -82,8 +83,7 @@ function removeMarker(){
 
 function initMap(){
 
-    console.log('coords ' + coords.lat);
-
+  
     mapOptions = {
         zoom: 17,
         center: {lat: 45.188012, lng:5.796268  },

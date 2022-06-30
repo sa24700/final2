@@ -157,7 +157,7 @@ app.get('/delChar',   function(req,res){
 
 app.get('/viewChar',  async function(req,res){
     try{
-        console.log("CHARNAME " + req.query.charName);
+        
       const char = await beginner.findOne({name: req.query.charName});
        res.end(JSON.stringify(char));
      
